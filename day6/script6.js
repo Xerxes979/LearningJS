@@ -119,3 +119,4 @@ for (let i = fruitArray.length - 1; i >= 0; i--)
   fruitInverse.push(fruitArray[i])
 }
 console.log(fruitInverse)
+
