@@ -157,14 +157,115 @@ console.log('Weight of an object in Newtons on the moon:', weightOfObject(100, 1
 //exercises
 //declare a function calles userIDGenerator, it generates a 7 character ID and returns the ID
 
-function userIDGenerator()
+function userIDGenerator(codeLength)
 {
   let code = ''
   let characters = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m','1','2','3','4','5','6','7','8','9','0','Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
-  for (let i = 0; i < 7; i++)
+  for (let i = 0; i < codeLength; i++)
   {
     code = code.concat(characters[Math.floor(Math.random() * characters.length)])
   }
   return code
 }
-console.log(userIDGenerator())
+console.log(userIDGenerator(7))
+
+//declare a function userIdGeneratedByUser that takes 2 inputs using prompt. one is the number of characters
+//and one is the number of ID's that are supposed to be generated
+
+function userIdGeneratedByUser()
+{
+  let codeLength = prompt('enter the length of the userID codes you want')
+  let codeNum = prompt('enter the number of userID codes you want')
+  for (let i = 0; i < codeNum; i++)
+  {
+    console.log(userIDGenerator(codeLength))
+  }
+}
+//userIdGeneratedByUser()
+
+//make a function called rgbColorGenerator to generate rgb colors
+function rgbColorGenerator()
+{
+  let rgbCode = []
+  for (let i = 0; i < 3; i++)
+  {
+    rgbCode[i] = Math.floor(Math.random() * 255)
+  }
+  //console.log(`rgb(${rgbCode[0]}, ${rgbCode[1]}, ${rgbCode[2]})`)
+  return rgbCode
+}
+//rgbColorGenerator()
+
+function hexColorGenerator()
+{
+  let hexCode = []
+  let hexChars = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
+  for (let i = 0; i < 6; i++)
+  {
+    hexCode[i] = hexChars[Math.floor(Math.random() * hexChars.length)]
+  }
+  console.log(`hex code is ${hexCode}`)
+  return hexCode
+}
+//hexColorGenerator()
+
+function convertHexaToRgb(hexCode)
+{
+  let rgbCode = []
+  let hexConverterArray = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
+  for (let i = 0; i < 3; i++)
+  {
+    let j = i*2
+    rgbCode[i] = Number(hexConverterArray.indexOf(hexCode[j]) * 16)
+    rgbCode[i] = rgbCode[i] + Number(hexConverterArray.indexOf(hexCode[j+1]))
+  }
+  console.log(`converted rgb code is ${rgbCode}`)
+  return rgbCode
+}
+//convertHexaToRgb(hexColorGenerator())
+
+function convertRgbToHexa(rgbCode)
+{
+  let hexCode = []
+  let hexConverterArray = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
+  for (let i = 0; i < 3; i++)
+  {
+    let j = i*2
+    hexCode[j] = hexConverterArray[Math.floor(rgbCode[i] / 16)]
+    hexCode[j+1] = hexConverterArray[Math.floor(rgbCode[i] % 16)]
+  }
+  console.log(`converted hex code is ${hexCode}`)
+}
+//convertRgbToHexa(convertHexaToRgb(hexColorGenerator()))
+
+function makeRandArray(size = 9000000)
+{
+  let randArray = []
+  for (let i = 0; i < size; i++)
+  {
+    randArray[i] = Math.floor(Math.random() * 100)
+  }
+  console.log(randArray)
+  return randArray
+}
+
+function shuffleArray(inArray)
+{
+  let outArray = []
+  for (let i = 0; i < inArray.length; i++)
+  {
+    let newIndex = Math.floor(Math.random() * inArray.length)
+    while (outArray[newIndex] != null)
+    {
+      //this right here is superrrr inefficient, but it technically works
+      newIndex = Math.floor(Math.random() * inArray.length)
+    }
+    outArray[newIndex] = inArray[i] 
+  }
+  
+  console.log(outArray)
+}
+
+//shuffleArray(makeRandArray())
+console.log('done')
+
