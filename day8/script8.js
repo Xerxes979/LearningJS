@@ -162,6 +162,7 @@ const personAccount = {
     console.log(`account balance is ${netIncome}`)
   }
 }
+/* uncomment here to test personAccount
 personAccount.totalIncome()
 personAccount.totalExpense()
 personAccount.addIncome('nifco', '800')
@@ -170,6 +171,7 @@ personAccount.addExpense('computer junk', '50')
 personAccount.totalExpense()
 personAccount.accountBalance()
 //that took a really long time. That is one hell of an object. 
+*/
 
 //question 2
 
@@ -253,6 +255,7 @@ const users = [
 function signUp(ID, userName, eMail, passWord){
   //first check if it exists
   let accountTaken = false
+  let newIndex = 0
   for (const[key, value] of Object.entries(users)){
     console.log(value._id)
     //console.log(key) just gives the index
@@ -264,11 +267,11 @@ function signUp(ID, userName, eMail, passWord){
   }
   if (accountTaken == false){
     console.log('This username is available. Creating your account ... ')
-    users._id = ID
-    users.username = userName
-    users.email = eMail
-    users.password = passWord
-    console.log(users._id)
+    users[newIndex]._id = ID
+    users[newIndex].username = userName
+    users[newIndex].email = eMail
+    users[newIndex].password = passWord
+    //console.log(users._id)
   }
   //next for is just to check
   for (const[key, value] of Object.entries(users)){
@@ -278,4 +281,4 @@ function signUp(ID, userName, eMail, passWord){
     console.log(value.password)
   }
 }
-signUp('xerxes', 'hi', 'hi', 'hi')
+signUp('Aubrey', 'Xerxes', 'xerxes.rocks@gmail.com', "don't guess this")
