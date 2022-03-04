@@ -2087,16 +2087,214 @@ function sortByCapital(){
 }
 //sortByCapital()
 
-//find 10 most spoken languages
+//find a select number of most spoken languages
 //first get a list of languages
 //then give each a number, and add to it for every country that speaks that language
 //then print out the top 10 languages and their numbers
 function mostSpokenLanguages(numLangs){
-  let languages = [
-    {language: '', count: ''}
-  ]
-  countries.sort(function(a, b){
-    return a - b
+  let langList = [{langName: 'default', langCount: 0}]
+  let found = false
+  for (const [index, key] of Object.entries(countries)){
+    for (temp of key.languages){
+      found = false
+      for (const[index2, key2] of Object.entries(langList)){
+        if (temp == key2.langName) {
+          key2.langCount++
+          found = true
+        }
+      }
+      if (found == false){
+        langList.push({langName: temp, langCount: 1})
+      }
+    }
+  }
+  langList.sort(function (a, b) {
+    if (a.langCount < b.langCount) return 1
+    if (a.langCount > b.langCount) return -1
+    return 0
   })
+  for (let i = 0; i < numLangs; i++){
+    console.log(`Language: '${langList[i].langName}', count: '${langList[i].langCount}'`)
+  }
 }
-mostSpokenLanguages(10)
+
+//mostSpokenLanguages(20)
+
+//do the same thing for population
+function mostPopulousCountries(numCountries){
+  let popList = [{country: 'default', pop: 0}]
+  for (const [index, key] of Object.entries(countries)){
+    popList.push({country: key.name, pop: key.population})
+  }
+  popList.sort(function(a, b) {
+    if (a.pop < b.pop) return 1
+    if (a.pop > b.pop) return -1
+    return 0
+  })
+  for (let i = 0; i < numCountries; i++){
+    console.log(`Country: '${popList[i].country}', population: '${popList[i].pop}'`)
+  }
+}
+//mostPopulousCountries(10)
+
+
+//make a statistics object that caluclates measures of central tendancy (mean, median, mode) and measures of variability (range, variance, stdev). in addition, find min, max, count, percentile, and frequency distribution of the sample
+
+
+const ages = [31, 26, 34, 37, 27, 26, 32, 32, 26, 27, 27, 24, 32, 33, 27, 25, 26, 38, 37, 31, 34, 24, 33, 29, 26]
+
+function Statistics(agesArray)
+{
+  this.count = function (){
+    //console.log(`count: ${agesArray.length}`)
+    return agesArray.length;
+  }
+  this.sum = function () {
+    let temp = 0
+    for (x of agesArray){
+      temp += x
+    }
+    //console.log(`sum: ${temp}`)
+    return temp
+  }
+  this.min = function (){
+    temp = agesArray[0]
+    for (x of agesArray){
+      if(temp > x){
+        temp = x
+      }
+    }
+    //console.log(`min: ${temp}`)
+    return temp
+  }
+  this.max = function (){
+    temp = agesArray[0]
+    for (x of agesArray){
+      if(temp < x){
+        temp = x
+      }
+    }
+    //console.log(`max: ${temp}`)
+    return temp
+  }
+  this.range = function (){
+    //console.log(`range: ${this.max() - this.min()}`)
+    return this.max() - this.min()
+  }
+  this.mean = function(){
+    //console.log(`mean: ${this.sum() / this.count()}`)
+    return this.sum() / this.count()
+  }
+  this.median = function(){
+    let index = Math.floor(agesArray.length / 2)
+    //console.log(`median: ${agesArray[index]}`)
+    return agesArray[index]
+  }
+  this.mode = function(){
+    agesArray2 = agesArray
+    agesArray2.sort(function(a,b) {
+      if (a < b) return 1
+      if (b < a) return -1
+      return 0
+    })
+    let currCount = 1
+    agesSets = [{mode: 0, count: 0}]
+    for (let i = 0; i < agesArray2.length; i++){
+      if (agesArray[i] == agesArray[i+1]){
+        currCount++
+      }
+      else{
+        agesSets.push({mode: agesArray[i], count: currCount})
+        currCount = 1
+      }
+    }
+    agesSets.sort(function(a, b){
+      if (a.count < b.count) return 1
+      if (b.count < a.count) return -1
+      return 0
+    })
+    //console.log(`mode: ${agesSets[0]}`)
+    return agesSets[0]
+  }
+  this.var = function(){
+    let myAverage = this.mean()
+    let varArray = []
+    for (x of agesArray){
+      temp = Math.abs(myAverage - x) ** 2
+      varArray.push(temp)
+    }
+    myAverage = 0
+    for (x of varArray){
+      myAverage += x
+    }
+    myAverage = myAverage / varArray.length
+    //console.log(`variance: ${Math.round(myAverage * 10) / 10}`)
+    return Math.round(myAverage * 10) / 10 
+  }
+  this.std = function(){
+    //console.log(`standard deviation: ${Math.round(Math.sqrt(this.var()) * 10) / 10}`)
+    return Math.round(Math.sqrt(this.var()) * 10) / 10
+  }
+  this.freqDist = function(){
+    agesArray2 = agesArray
+    agesArray2.sort(function(a,b) {
+      if (a < b) return 1
+      if (b < a) return -1
+      return 0
+    })
+    let currCount = 1
+    agesSets = [{value: 0, frequency: 0}]
+    for (let i = 0; i < agesArray2.length; i++){
+      if (agesArray[i] == agesArray[i+1]){
+        currCount++
+      }
+      else{
+        agesSets.push({value: agesArray[i], frequency: currCount})
+        currCount = 1
+      }
+    }
+    agesSets.sort(function(a, b){
+      if (a.frequency < b.frequency) return 1
+      if (b.frequency < a.frequency) return -1
+      return 0
+    })
+    for (x of agesSets){
+      x.frequency = Math.floor(x.frequency / agesSets.length * 100 / 2)
+    }
+    agesSets.pop()
+    //console.log(`frequency distribution: ${agesSets}`)
+    return agesSets
+  }
+  this.describe = function(){
+    console.log('count: ', myStats.count())
+    console.log('sum: ', myStats.sum())
+    console.log('min: ', myStats.min())
+    console.log('max: ', myStats.max())
+    console.log('range: ', myStats.range())
+    console.log('range: ', myStats.mean())
+    console.log('median: ', myStats.median())
+    console.log('mode: ', myStats.mode())
+    console.log('variance: ', myStats.var())
+    console.log('standard deviation: ', myStats.std())
+    console.log('frequency distribution: ', myStats.freqDist())
+  }
+}
+
+var myStats = new Statistics(ages);
+/*
+console.log(myStats.count())
+console.log(myStats.sum())
+console.log(myStats.min())
+console.log(myStats.max())
+console.log(myStats.range())
+console.log(myStats.mean())
+console.log(myStats.median())
+console.log(myStats.mode())
+console.log(myStats.var())
+console.log(myStats.std())
+console.log(myStats.freqDist())
+*/
+
+myStats.describe()
+
+//that's all folks
