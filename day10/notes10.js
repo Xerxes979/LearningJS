@@ -100,4 +100,14 @@ console.log(countriesMap)
 console.log(countriesMap.size)
 
 //getting a value from a Map
-console.log(countriesMap.has('Finland'))
+console.log(countriesMap.has('Finland')) // true
+
+//to get all values a loop is necessary
+
+for (const country of countriesMap){
+    console.log(country) // shows up as an array
+}
+
+for (const [country, city] of countriesMap){
+    console.log(country, city) // these show up as strings
+}
