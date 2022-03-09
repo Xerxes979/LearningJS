@@ -44,4 +44,12 @@ const throwErrorExampleFun = () => {
     }
 }
 
-throwErrorExampleFun()
+//throwErrorExampleFun()
+
+//error types:
+    //reference error: an illegal reference has occurred
+    //syntax error: a syntax error has occurred
+    //type error: a type error has occurred
+
+
+//there are no exercises for error catching
